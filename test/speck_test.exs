@@ -22,7 +22,8 @@ defmodule Speck.Test do
       "sensors" => [
         %{"type" => "temperature", "address" => 51},
         %{"type" => "humidity",    "address" => 72},
-      ]
+      ],
+      "activates_at" => "2024-01-01T00:00:00Z"
     }
 
     assert Speck.validate(MQTT.AddDevice.V1, params) ==
@@ -47,7 +48,8 @@ defmodule Speck.Test do
         sensors: [
           %{type: :temperature, address: 51},
           %{type: :humidity,    address: 72},
-        ]
+        ],
+        activates_at: ~U[2024-01-01 00:00:00Z]
       }}
   end
 
@@ -61,6 +63,7 @@ defmodule Speck.Test do
         param3: "foo",
         param4: :foo,
         param5: true,
+        param6: DateTime.from_unix!(0)
       }}
   end
 
@@ -74,6 +77,7 @@ defmodule Speck.Test do
         rs485_address: :not_present,
         serial_number: :not_present,
         dns_servers:   :not_present,
+        activates_at:     :not_present,
         metadata: %{
           location:   :not_present,
           department: :not_present,
@@ -89,6 +93,7 @@ defmodule Speck.Test do
       "param1" => "invalid",
       "param2" => "invalid",
       "param3" => "invalid",
+      "param4" => 100,
     }
 
     assert Speck.validate(TestSchema.WrongType, params) ==
@@ -96,6 +101,7 @@ defmodule Speck.Test do
         param1: :wrong_type,
         param2: :wrong_type,
         param3: :wrong_type,
+        param4: :wrong_type,
       }}
   end
 

@@ -23,3 +23,5 @@ attribute [:sensors], optional: true do
   attribute :type,    :atom
   attribute :address, :integer
 end
+
+attribute :activates_at, :datetime

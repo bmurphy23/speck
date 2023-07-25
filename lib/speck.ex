@@ -159,6 +159,15 @@ defmodule Speck do
 
   defp do_validate(:string, value, _opts), do: to_string(value)
 
+  defp do_validate(:datetime, value, _opts) when not is_binary(value), do: {:error, :wrong_type}
+
+  defp do_validate(:datetime, value, _opts) do
+    case DateTime.from_iso8601(value) do
+      {:ok, datetime, _} -> datetime
+      error              -> error
+    end
+  end
+
   defp do_validate(:atom, value, _opts) when is_binary(value), do: String.to_atom(value)
   defp do_validate(:atom, value, _opts) when is_atom(value), do: value
 
